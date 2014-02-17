@@ -24,6 +24,11 @@ Router.map(function () {
    this.route('page', {
     path: '/page'
   });
+
+
+   this.route('boards', {
+    path: '/boards'
+  });
   this.route('posts', {
     path: '/posts'
   });

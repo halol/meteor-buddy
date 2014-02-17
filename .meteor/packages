@@ -17,3 +17,5 @@ iron-router
 iron-router-progress
 bootstrap3-less
 accounts-ui
+font-awesome
+moment
