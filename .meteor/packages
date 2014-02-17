@@ -7,7 +7,6 @@ standard-app-packages
 autopublish
 insecure
 preserve-inputs
-accounts-ui-unstyled
 accounts-base
 accounts-facebook
 accounts-password
@@ -17,3 +16,4 @@ jquery
 iron-router
 iron-router-progress
 bootstrap3-less
+accounts-ui
