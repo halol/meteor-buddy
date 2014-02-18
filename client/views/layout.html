@@ -40,32 +40,52 @@
 </template>
 
 
+<template name="board">
+	<div class="col-lg-4">
+		<div class="panel panel-default" data-owner="{{submittedById}}">
+			  <div class="panel-heading">
+					<h3 class="panel-title">{{title}} <span class="pull-right">{{prettyDate date}} {{#if currentUser }}<button type="button" class="btn btn-danger btn-xs delete"><i class="fa fa-times"></i></button>{{/if}}</span></h3>
+			  </div>
+			  <div class="panel-body">
+					{{this._id}} <br>{{content}}
+					<hr>
+					<small>Dodano: {{ prettyDate submittedOn}}</small>
+					<br>
+					
+					<br>
+					{{ownerName}}
+			  </div>
+			  <div class="panel-body chats">
+			  	{{>messages}}
+			  </div>
+			  <div class="panel-body chats">
+			  	{{>input}}
+			  </div>
+			  <div class="panel-footer">
+			  	<button class="like btn btn-xs btn-info" {{#if likesthis}}disabled="disabled"{{/if}}>
+			  		like {{numlikes}}
+			  		{{likesthis}}
+			  	</button></div>
+		</div>
+		</div>
+</template>
 
 <template name="boards">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1>Boards {{>add_board}}</h1>
+			<h1>Boards</h1>
 			<div class="row">
 			{{#if currentUser }}
 				{{> add_inline}}
 			{{/if}}
 			{{#each items}}
-			<div class="col-lg-4">
-			<div class="panel panel-default">
-				  <div class="panel-heading">
-						<h3 class="panel-title">{{title}} <span class="pull-right">{{date}} <button type="button" class="btn btn-danger btn-xs remove"><i class="fa fa-times"></i></button></span></h3>
-				  </div>
-				  <div class="panel-body">
-						{{content}}
-						<hr>
-						<small>{{submittedOn}}</small>
-						{{submittedBy}}
-				  </div>
-			</div>
-			</div>
+			
+				{{>board}}
 
 			{{else}}
+			<div class="col-lg-4">
 			<div class="well">Not found</div>
+			</div>
 			{{/each}}
 			
 			</div>
@@ -83,7 +103,10 @@
 		  </div>
 		  <div class="panel-body">
 				<textarea name="" id="" cols="30" rows="3" class="form-control content"></textarea>
-				<input type="text" name="" id="input" class="form-control datepicker date" value="" title="">
+				<div class="input-group datetimepicker">
+    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+    <input class="date set-due-date form-control" type="text"/>
+</div>
 		  </div>
 		  <div class="panel-footer">
 		  		<button class="btn btn-success save">Zapisz</button>
@@ -155,4 +178,29 @@
 		</div><!-- /.navbar-collapse -->
 	</nav>
 	
+</template>
+
+
+<template name="input">
+    <div id="input" class="well">
+        <strong>Your message</strong>
+        <textarea rows="3" id="newMessage"></textarea>
+        <input type="text" placeholder="Your name..." id="username" />
+        <a id="send">Send</a>
+    </div>
+</template>
+
+<template name="messages">
+    <div id="messages">
+        {{#each messages}}
+            {{> message}}
+        {{/each}}
+    </div>
+</template>
+
+<template name="message">
+    <blockquote>
+        <p>board: {{boardid}} / {{message}}</p>
+        <small>{{username}}</small>
+    </blockquote>
 </template>

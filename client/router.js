@@ -29,6 +29,9 @@ Router.map(function () {
    this.route('boards', {
     path: '/boards'
   });
+     this.route('board', {
+    path: '/boards/:_id'
+  });
   this.route('posts', {
     path: '/posts'
   });

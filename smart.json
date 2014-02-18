@@ -5,6 +5,6 @@
     "bootstrap3-less": {},
     "font-awesome": {},
     "moment": {},
-    "bootstrap-datepicker2": {}
+    "bootstrap3-datetimepicker": {}
   }
 }
