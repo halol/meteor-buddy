@@ -1,5 +1,12 @@
 Router.configure({
-  layoutTemplate: 'layout'
+  layoutTemplate: 'layout',
+  before: function() {
+    var user = Meteor.user();
+    if (! user) {
+      this.render(Meteor.loggingIn() ? 'loading' : 'login');
+      return this.stop();
+    }
+  }
 });
 
 Router.map(function () {
@@ -8,9 +15,16 @@ Router.map(function () {
    * The route's template is also "home"
    * The default action will render the home template
    */
-  this.route('home', {
+  this.route('boards', {
     path: '/',
-    template: 'home'
+    template: 'boards'
+  });
+
+  this.route('showBoard', {
+    path: '/board/:_id',
+    data: function(){
+        return Boards.findOne(this.params.id, { fields: { _id: 1 }, reactive: false });
+    }
   });
 
   /**
@@ -26,52 +40,6 @@ Router.map(function () {
   });
 
 
-   this.route('boards', {
-    path: '/boards'
-  });
-     this.route('board', {
-    path: '/boards/:_id'
-  });
-  this.route('posts', {
-    path: '/posts'
-  });
 
-  this.route('post', {
-    path: '/posts/:_id',
-
-    load: function () {
-      // called on first load
-    },
-
-    // before hooks are run before your action
-    before: [
-      function () {
-        this.subscribe('post', this.params._id).wait();
-        this.subscribe('posts'); // don't wait
-      },
-
-      function () {
-        // we're done waiting on all subs
-        if (this.ready()) {
-          NProgress.done(); 
-        } else {
-          NProgress.start();
-          this.stop(); // stop downstream funcs from running
-        }
-      }
-    ],
-
-    action: function () {
-      var params = this.params; // including query params
-      var hash = this.hash;
-      var isFirstRun = this.isFirstRun;
-
-      this.render(); // render all
-      this.render('specificTemplate', {to: 'namedYield'});
-    },
-
-    unload: function () {
-      // before a new route is run
-    }
-  });
 });
+

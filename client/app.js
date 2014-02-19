@@ -1,7 +1,10 @@
 Boards = new Meteor.Collection('boards');
 Likes = new Meteor.Collection('likes');
 Messages = new Meteor.Collection("Messages");
-Meteor.subscribe("directory");
+Meteor.subscribe("users");
+Meteor.subscribe("boards");
+Meteor.subscribe("likes");
+
 Template.boards.items = function() {
     return Boards.find({}, {
         sort: {
@@ -39,6 +42,7 @@ Template.boards.events({
     },
     'click .panel-title': function (event, tmpl) {
         console.log('panel title ' + this._id)
+        Router.go('showBoard', { _id: this._id});
     }
     
 });
@@ -147,3 +151,9 @@ Meteor.saveMessage = function(content) {
       }
     });
 };
+
+
+Template.showBoard.title = function () {
+  var board = Boards.findOne(Router.current().params.id);
+  return board.title;
+}
